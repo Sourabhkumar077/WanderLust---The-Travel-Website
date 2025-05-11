@@ -1,0 +1,26 @@
+<% layout('/layouts/boilerplate.ejs') -%>
+
+    <body>
+        <h3>Listing Details : </h3>
+        <ul>
+            <li>Title : <%=oneListing.title%>
+            </li>
+            <li>Description : <%=oneListing.description%>
+            </li>
+            <li>Price : &#8377; <%=oneListing.price.toLocaleString("en-IN")%></li>
+            <!-- using the toLocaleString() method to add commas in price with indian  standard -->
+            <li>Location : <%=oneListing.location%>
+            </li>
+            <li>Country : <%=oneListing.country%>
+            </li>
+        </ul>
+
+        <form action="/listings/<%=oneListing._id%>/edit" method="GET">
+            <button type="submit">Edit this Listing</button>
+        </form>
+        <br>
+
+        <form action="/listings/<%=oneListing._id%>?_method=DELETE" method="post">
+            <button type="submit">Delete this Listing</button>
+        </form>
+    </body>
