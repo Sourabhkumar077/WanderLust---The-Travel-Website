@@ -93,3 +93,12 @@ body {
     background-color: #fe424d !important;
     border: none !important;
 }
+
+/* show page */
+.show-btns{
+    display: flex;
+}
+
+.show-img{
+    height: 35vh;
+}
