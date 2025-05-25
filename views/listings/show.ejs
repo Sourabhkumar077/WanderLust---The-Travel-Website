@@ -16,7 +16,7 @@
           <p class="card-text">
             <b><%=oneListing.title%></b> <br />
             <%=oneListing.description%> <br />
-            &#8377; <%=oneListing.price.toLocaleString("en-IN")%>/- night <br />
+            &#8377; <%= oneListing.price?.toLocaleString("en-IN") || 'Price Not Available' %> / night <br />
             <!-- using the toLocaleString() method to add commas in price with indian  standard -->
             <%=oneListing.location%> <br />
             <%=oneListing.country%> <br />
