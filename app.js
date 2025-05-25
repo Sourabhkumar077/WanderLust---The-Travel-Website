@@ -33,8 +33,8 @@ app.get('/', (req, res) => {
 
 // index route of the app
 app.get("/listings", async (req, res) => {
-   const allListings = await listing.find({})
-     res.render("listings/index.ejs", {allListings}); 
+    const allListings = await listing.find({})
+    res.render("listings/index.ejs", { allListings });
 
 });
 // new  route
@@ -45,27 +45,32 @@ app.get("/listings/new", (req, res) => {
 app.get("/listings/:id", async (req, res) => {
     let id = req.params.id;
     const oneListing = await listing.findById(id);
-    res.render("listings/show.ejs", {oneListing});
-    
+    res.render("listings/show.ejs", { oneListing });
+
 })
 // create route
-app.post("/listings", async (req, res) => {
-    const newListing = new listing(req.body.listing);
-    await newListing.save(newListing);
-    res.redirect("/listings");
+app.post("/listings", async (req, res, next) => {
+    try {
+        const newListing = new listing(req.body.listing);
+        await newListing.save(newListing);
+        res.redirect("/listings");
+    }
+    catch (err) {
+        next(err);
+    }
 })
 
 // edit route
-app.get("/listings/:id/edit", async (req,res)=>{
-    let  id = req.params.id;
+app.get("/listings/:id/edit", async (req, res) => {
+    let id = req.params.id;
     const editlisting = await listing.findById(id);
-    res.render("listings/edit.ejs", {editlisting});
+    res.render("listings/edit.ejs", { editlisting });
 });
 
 // update route
 app.put("/listings/:id", async (req, res) => {
     let id = req.params.id;
-    await listing.findByIdAndUpdate(id, {...req.body.listing});
+    await listing.findByIdAndUpdate(id, { ...req.body.listing });
     res.redirect(`/listings/${id}`);
 });
 // delete route 
@@ -75,7 +80,11 @@ app.delete("/listings/:id", async (req, res) => {
     console.log(deletedListing);
     res.redirect("/listings");
 });
-
+// error handling middleware
+app.use((err, req, res, next) => {
+    console.log(err.message);
+    res.send("Something went Wrong!!")
+});
 
 
 // server is listening of port value 
