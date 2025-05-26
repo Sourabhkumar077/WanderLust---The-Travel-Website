@@ -57,6 +57,9 @@ app.get("/listings/:id", wrapAsync(async (req, res) => {
 
 // create route
 app.post("/listings", wrapAsync(async (req, res) => {
+  if(!req.body.listing){
+    throw new ExpressError("Please enter a listing", 400);
+  }
   const newListing = new Listing(req.body.listing);
   await newListing.save();
   res.redirect("/listings");
