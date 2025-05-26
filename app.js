@@ -5,10 +5,11 @@ const mongoose = require("mongoose");
 const Listing = require("./models/listing");
 const path = require("path");
 const methodOverride = require("method-override");
-
 const ejsMate = require("ejs-mate");
 const wrapAsync = require("./utils/wrapAsync");
 const ExpressError = require("./utils/expressError");
+const { listingSchema } = require("./schema");
+
 
 // setting views engine
 app.set("view engine", "ejs");
@@ -33,7 +34,17 @@ main()
 app.get("/", (req, res) => {
   res.send("Hello World! this is root page");
 });
-
+// schema validation error handling middleware
+const validateListing = (req, res, next) => {
+  console.log(req.body);
+  const { error } = listingSchema.validate(req.body.listing);
+  if (error) {
+    const msg = error.details.map((el) => el.message).join(",");
+    throw new ExpressError(msg, 400);
+  } else {
+    next();
+  }
+}
 // index route of the app
 app.get("/listings", wrapAsync(async (req, res) => {
   const allListings = await Listing.find({});
@@ -56,14 +67,12 @@ app.get("/listings/:id", wrapAsync(async (req, res) => {
 }));
 
 // create route
-app.post("/listings", wrapAsync(async (req, res) => {
-  if(!req.body.listing){
-    throw new ExpressError("Please enter a listing", 400);
-  }
-  const newListing = new Listing(req.body.listing);
-  await newListing.save();
-  res.redirect("/listings");
-}));
+app.post("/listings", validateListing, 
+  wrapAsync(async (req, res) => {
+    const newListing = new Listing(req.body.listing);
+    await newListing.save();
+    res.redirect("/listings");
+  }));
 
 // edit route
 app.get("/listings/:id/edit", wrapAsync(async (req, res) => {
@@ -76,7 +85,7 @@ app.get("/listings/:id/edit", wrapAsync(async (req, res) => {
 }));
 
 // update route
-app.put("/listings/:id", wrapAsync(async (req, res) => {
+app.put("/listings/:id", validateListing, wrapAsync(async (req, res) => {
   let id = req.params.id;
   await Listing.findByIdAndUpdate(id, { ...req.body.listing });
   res.redirect(`/listings/${id}`);
