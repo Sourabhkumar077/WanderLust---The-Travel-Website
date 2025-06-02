@@ -9,7 +9,7 @@ const ejsMate = require("ejs-mate");
 const wrapAsync = require("./utils/wrapAsync");
 const ExpressError = require("./utils/expressError");
 const Review = require("./models/review")
-const { listingSchema } = require("./schema");
+const { listingSchema, reviewSchema } = require("./schema");
 
 
 
@@ -36,6 +36,7 @@ main()
 app.get("/", (req, res) => {
   res.send("Hello World! this is root page");
 });
+
 // schema validation error handling middleware
 const validateListing = (req, res, next) => {
   console.log(req.body);
@@ -47,6 +48,19 @@ const validateListing = (req, res, next) => {
     next();
   }
 }
+
+// server side validation for review
+const validateReview = (req, res, next) => {
+  console.log(req.body);
+  const { error } = reviewSchema.validate(req.body.listing);
+  if (error) {
+    const msg = error.details.map((el) => el.message).join(",");
+    throw new ExpressError(msg, 400);
+  } else {
+    next();
+  }
+}
+
 // index route of the app
 app.get("/listings", wrapAsync(async (req, res) => {
   const allListings = await Listing.find({});
@@ -102,21 +116,19 @@ app.delete("/listings/:id", wrapAsync(async (req, res) => {
   }
   res.redirect("/listings");
 }));
-// add review route
-app.post("/listings/:id/reviews",async(req,res)=>{
-  // console.log(req.params.id);
+
+// add review route & here request come from the show page form
+app.post("/listings/:id/reviews",validateReview,wrapAsync(async(req,res)=>{
  let listing =  await Listing.findById(req.params.id);
  let newReview = new Review(req.body.review);
-//  console.log(newReview);
- 
+//  console.log(newReview); 
  listing.reviews.push(newReview);
-
  await newReview.save();
  await listing.save();
 
  console.log("new review saved");
  res.send("new review Saved");
-});
+}));
 
 // handle 404s
 app.all("*", (req, res, next) => {
