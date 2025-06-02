@@ -48,6 +48,12 @@
       
       <button class="btn btn-outline-dark mb-3" type="submit">Submit</button>
     </form>
+    <h4>All reviews</h4>
+    <ul>
+      <% for(let review of oneListing.reviews){ %>
+      <li><%=review.comment%> , Rating: <%=review.rating%> Stars</li>
+      <% } %>
+    </ul>
   </div>
 </div>
 </body>

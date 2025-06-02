@@ -51,8 +51,8 @@ const validateListing = (req, res, next) => {
 
 // server side validation for review
 const validateReview = (req, res, next) => {
-  console.log(req.body);
   const { error } = reviewSchema.validate(req.body.listing);
+  // console.log("Incoming Review Data:", req.body);
   if (error) {
     const msg = error.details.map((el) => el.message).join(",");
     throw new ExpressError(msg, 400);
@@ -75,7 +75,7 @@ app.get("/listings/new", (req, res) => {
 // Show route
 app.get("/listings/:id", wrapAsync(async (req, res) => {
   let id = req.params.id;
-  const oneListing = await Listing.findById(id);
+  const oneListing = await Listing.findById(id).populate("reviews");
   if (!oneListing) {
     throw new ExpressError("Listing not found", 404);
   }
@@ -118,7 +118,7 @@ app.delete("/listings/:id", wrapAsync(async (req, res) => {
 }));
 
 // add review route & here request come from the show page form
-app.post("/listings/:id/reviews",validateReview,wrapAsync(async(req,res)=>{
+app.post("/listings/:id/reviews",validateReview, wrapAsync(async(req,res)=>{
  let listing =  await Listing.findById(req.params.id);
  let newReview = new Review(req.body.review);
 //  console.log(newReview); 
@@ -127,7 +127,7 @@ app.post("/listings/:id/reviews",validateReview,wrapAsync(async(req,res)=>{
  await listing.save();
 
  console.log("new review saved");
- res.send("new review Saved");
+    res.redirect(`/listings/${listing._id}`);
 }));
 
 // handle 404s
