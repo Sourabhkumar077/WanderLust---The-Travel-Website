@@ -8,7 +8,9 @@ const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const wrapAsync = require("./utils/wrapAsync");
 const ExpressError = require("./utils/expressError");
+const Review = require("./models/review")
 const { listingSchema } = require("./schema");
+
 
 
 // setting views engine
@@ -67,7 +69,7 @@ app.get("/listings/:id", wrapAsync(async (req, res) => {
 }));
 
 // create route
-app.post("/listings", validateListing, 
+app.post("/listings", validateListing,
   wrapAsync(async (req, res) => {
     const newListing = new Listing(req.body.listing);
     await newListing.save();
@@ -100,6 +102,21 @@ app.delete("/listings/:id", wrapAsync(async (req, res) => {
   }
   res.redirect("/listings");
 }));
+// add review route
+app.post("/listings/:id/reviews",async(req,res)=>{
+  // console.log(req.params.id);
+ let listing =  await Listing.findById(req.params.id);
+ let newReview = new Review(req.body.review);
+//  console.log(newReview);
+ 
+ listing.reviews.push(newReview);
+
+ await newReview.save();
+ await listing.save();
+
+ console.log("new review saved");
+ res.send("new review Saved");
+});
 
 // handle 404s
 app.all("*", (req, res, next) => {

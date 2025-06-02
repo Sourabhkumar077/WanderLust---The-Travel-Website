@@ -3,7 +3,7 @@
 <div class="row mt-3" >
  
     <div class="col-6 offset-2">
-      <h3>Listing Details </h3>
+      <h3><%=oneListing.title%></h3>
     </div>
       <div class="card col-6 offset-3">
         <img
@@ -14,7 +14,6 @@
         />
         <div class="card-body">
           <p class="card-text">
-            <b><%=oneListing.title%></b> <br />
             <%=oneListing.description%> <br />
             &#8377; <%= oneListing.price?.toLocaleString("en-IN") || 'Price Not Available' %> / night <br />
             <!-- using the toLocaleString() method to add commas in price with indian  standard -->
@@ -30,6 +29,22 @@
     </form>
     <form action="/listings/<%=oneListing._id%>?_method=DELETE" method="post">
       <button type="submit" class="btn btn-dark offset-3 ">Delete</button>
+    </form>
+  </div>
+  <!-- the review form -->
+  <div class="col-6 offset-2 mb-3">
+    <hr>
+    <h4>Leave a Review</h4>
+    <form action="/listings/<%=oneListing._id%>/reviews" method="POST">
+      <div class="mb-3 mt-3">
+        <label for="rating" class="form-label">Rating</label>
+        <input type="range" id="rating" min="1" max="5" name="review[rating]" class="form-range">
+      </div>
+      <div class="mb-3 mt-3">
+        <label for="comment" class="form-label">Comment</label><br>
+        <textarea name="review[comment]" id="comment" cols="40" rows="5" class="form-control"></textarea>
+      </div>
+      <button class="btn btn-outline-dark mb-3" type="submit">Submit</button>
     </form>
   </div>
 </div>
