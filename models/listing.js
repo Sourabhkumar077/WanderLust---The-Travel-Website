@@ -14,11 +14,10 @@ const listingSchema = new Schema({
     filename: String,
     url: {
       type: String,
-      default: "https://unsplash.com/photos/majestic-mountains-loom-above-a-dense-forest-HBsmzKuGyuI",
-      set: (v) =>
-        v === ""
-          ? "https://unsplash.com/photos/majestic-mountains-loom-above-a-dense-forest-HBsmzKuGyuI"
-          : v,
+      default: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8aG90ZWx8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60",
+      set: function(v) {
+        return v === "" || !v ? "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8aG90ZWx8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60" : v;
+      }
     },
   },
   location: String,

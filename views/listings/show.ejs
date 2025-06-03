@@ -1,69 +1,102 @@
 <% layout('/layouts/boilerplate.ejs') -%>
- <body>
-<div class="row mt-3" >
- 
+<body>
+<div class="row mt-3">
     <div class="col-6 offset-2">
       <h3><%=oneListing.title%></h3>
     </div>
-      <div class="card col-6 offset-3 listing-card">
-        <img
-          src="<%= oneListing.image.url %>"
-          class="card-img-top show-img"
-          alt="listings_image"
-         
-        />
-        <div class="card-body">
-          <p class="card-text">
-            <%=oneListing.description%> <br />
-            &#8377; <%= oneListing.price?.toLocaleString("en-IN") || 'Price Not Available' %> / night <br />
-            <!-- using the toLocaleString() method to add commas in price with indian  standard -->
-            <%=oneListing.location%> <br />
-            <%=oneListing.country%> <br />
-          </p>
-        </div>
+    <div class="card col-6 offset-3 listing-card">
+      <img
+        src="<%= oneListing.image.url %>"
+        class="card-img-top show-img"
+        alt="listings_image"
+      />
+      <div class="card-body">
+        <p class="card-text">
+          <%=oneListing.description%> <br />
+          &#8377; <%= oneListing.price?.toLocaleString("en-IN") || 'Price Not Available' %> / night <br />
+          <!-- using the toLocaleString() method to add commas in price with indian  standard -->
+          <%=oneListing.location%> <br />
+          <%=oneListing.country%> <br />
+        </p>
       </div>
-  </body>
-  <div class="show-btns  offset-3">
-    <form action="/listings/<%=oneListing._id%>/edit" method="GET">
-      <button type="submit" class="btn btn-dark edit-btn ">Edit</button>
-    </form>
-    <form action="/listings/<%=oneListing._id%>?_method=DELETE" method="post">
-      <button type="submit" class="btn btn-dark offset-3 ">Delete</button>
-    </form>
-  </div>
-  <!-- the review form -->
-  <div class="col-6 offset-2 mb-3">
-    <hr>
-    <h4>Leave a Review</h4>
-    <form action="/listings/<%=oneListing._id%>/reviews" method="POST"novalidate class="needs-validation">
-      <div class="mb-3 mt-3">
-        <label for="rating" class="form-label">Rating</label>
-        <input type="range" id="rating" min="1" max="5" name="review[rating]" class="form-range">
-      </div>
-      <div class="mb-3 mt-3">
-        <label for="comment" class="form-label">Comment</label><br>
-        <textarea name="review[comment]" id="comment" cols="40" rows="5" class="form-control" required></textarea>
-        <div class="invalid-feedback">Please add a valid comment for Review</div>
-      </div>
-      
-      <button class="btn btn-outline-dark mb-3" type="submit">Submit</button>
-    </form>
-    <p><b>Total <%=oneListing.reviews.length%> Reviews</b></p>
-    
-    <div class="row">
-      <% for(let review of oneListing.reviews){ %>
-      <div class="card col-5 mb-3 ms-3">
-        <div class="card-body">
-          <h5 class="card-title">Tony stark</h5>
-          <p class="card-text"><%=review.comment%></p>
-          <p class="card-text">Rating: <%=review.rating%> Stars</p>
-        </div>
-        <form action="/listings/<%=oneListing._id%>/reviews/<%=review._id%>?_method=DELETE" class="mb-3" method="POST">
-          <button class="btn btn-outline-dark mt-2" type="submit">Delete</button>
-        </form>
-      </div>
-      <% } %>
     </div>
+</div>
+
+<div class="show-btns offset-3">
+  <form action="/listings/<%=oneListing._id%>/edit" method="GET">
+    <button type="submit" class="btn btn-dark edit-btn">Edit</button>
+  </form>
+  <form action="/listings/<%=oneListing._id%>?_method=DELETE" method="post">
+    <button type="submit" class="btn btn-dark offset-3">Delete</button>
+  </form>
+</div>
+
+<!-- Review Section -->
+<div class="col-6 offset-2 mb-3">
+  <hr>
+  <h4>Leave a Review</h4>
+  <form action="/listings/<%=oneListing._id%>/reviews" method="POST" novalidate class="needs-validation">
+    <div class="mb-3 mt-3">
+      <label for="rating" class="form-label">Rating: <span id="ratingValue">3</span> Stars</label>
+      <input 
+        type="range" 
+        id="rating" 
+        min="1" 
+        max="5" 
+        value="3"
+        name="review[rating]" 
+        class="form-range"
+        oninput="document.getElementById('ratingValue').textContent = this.value"
+      >
+    </div>
+    <div class="mb-3 mt-3">
+      <label for="comment" class="form-label">Comment</label>
+      <textarea 
+        name="review[comment]" 
+        id="comment" 
+        class="form-control" 
+        rows="3" 
+        required
+        placeholder="Share your experience..."
+      ></textarea>
+      <div class="invalid-feedback">Please add a valid comment for Review</div>
+    </div>
+    
+    <button class="btn btn-outline-dark mb-3" type="submit">Submit Review</button>
+  </form>
+
+  <p><b>Total <%=oneListing.reviews.length%> Reviews</b></p>
+  
+  <div class="row">
+    <% for(let review of oneListing.reviews){ %>
+    <div class="card col-5 mb-3 ms-3">
+      <div class="card-body">
+        <h5 class="card-title">Rating: <%=review.rating%> Stars</h5>
+        <p class="card-text"><%=review.comment%></p>
+        <p class="card-text"><small class="text-muted">Posted on <%=review.createdAt.toLocaleDateString()%></small></p>
+      </div>
+      <form action="/listings/<%=oneListing._id%>/reviews/<%=review._id%>?_method=DELETE" class="mb-3" method="POST">
+        <button class="btn btn-outline-dark mt-2" type="submit">Delete Review</button>
+      </form>
+    </div>
+    <% } %>
   </div>
 </div>
+
+<script>
+// Form validation
+(function () {
+  'use strict'
+  var forms = document.querySelectorAll('.needs-validation')
+  Array.prototype.slice.call(forms).forEach(function (form) {
+    form.addEventListener('submit', function (event) {
+      if (!form.checkValidity()) {
+        event.preventDefault()
+        event.stopPropagation()
+      }
+      form.classList.add('was-validated')
+    }, false)
+  })
+})()
+</script>
 </body>

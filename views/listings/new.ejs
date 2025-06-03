@@ -15,47 +15,55 @@
         required
       />
       <div class="valid-feedback">
-      Title Looks good!
-    </div>
+        Title Looks good!
+      </div>
     </div>
 
     <div class="mb-3">
-      <label for="description" class="form-label">description</label>
+      <label for="description" class="form-label">Description</label>
       <textarea
         class="form-control"
         type="text"
         name="listing[description]"
-        placeholder=" Enter Description"
+        placeholder="Enter Description"
         required
       ></textarea>
-       <div class="invalid-feedback">
+      <div class="invalid-feedback">
         Enter a short description
       </div>
     </div>
+
     <div class="row">
-        <div class="mb-3 col-md-4">
-      <label for="price" class="form-label">Price</label>
-      <input
-        name="listing[price]"
-        placeholder=" e.g 1000"
-      
-        class="form-control"
-        required
-      />
-      <div class="invalid-feedback">
-        Enter a valid price
+      <div class="mb-3 col-md-4">
+        <label for="price" class="form-label">Price</label>
+        <input
+          type="number"
+          name="listing[price]"
+          placeholder="e.g 1000"
+          class="form-control"
+          required
+        />
+        <div class="invalid-feedback">
+          Enter a valid price
+        </div>
+      </div>
+      <div class="mb-3 col-md-8">
+        <label for="image" class="form-label">Image URL (Optional)</label>
+        <input
+          type="url"
+          name="listing[image][url]"
+          placeholder="Enter Image URL or leave empty for default image"
+          class="form-control"
+        />
+        <input
+          type="hidden"
+          name="listing[image][filename]"
+          value="listing-image"
+        />
+        <small class="text-muted">If no URL is provided, a default image will be used</small>
       </div>
     </div>
-    <div class="mb-3 col-md-8">
-      <label for="image" class="form-label">Image</label>
-      <input
-        type="text"
-        name="listing[image]"
-        placeholder=" Enter Image link"
-        class="form-control"
-      />
-    </div>
-    </div>
+
     <div class="mb-3">
       <label for="location" class="form-label">Location</label>
       <input
@@ -69,6 +77,7 @@
         Enter a valid location name
       </div>
     </div>
+
     <div class="mb-3">
       <label for="country" class="form-label">Country</label>
       <input
@@ -82,6 +91,7 @@
         Enter a valid Country name
       </div>
     </div>
+
     <button class="btn btn-dark add-btn">Add listing</button>
     <br><br>
   </form>

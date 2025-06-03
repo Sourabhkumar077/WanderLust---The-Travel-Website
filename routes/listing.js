@@ -4,7 +4,7 @@ const router = express.Router();
 const wrapAsync = require("../utils/wrapAsync");
 const ExpressError = require("../utils/expressError");
 const Listing = require("../models/listing");
-const { listingSchema, reviewSchema } = require("../schema");
+const { listingSchema } = require("../schema");
 
 // schema validation error handling middleware
 const validateListing = (req, res, next) => {
