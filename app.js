@@ -2,16 +2,15 @@ const express = require("express");
 const app = express();
 const port = 3000;
 const mongoose = require("mongoose");
-const Listing = require("./models/listing");
 const path = require("path");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
-const wrapAsync = require("./utils/wrapAsync");
 const ExpressError = require("./utils/expressError");
-const Review = require("./models/review");
-const { listingSchema, reviewSchema } = require("./schema");
 
+// requiring the routers of the app
 const listings = require("./routes/listing");
+const reviews = require("./routes/review");
+
 
 // setting views engine
 app.set("view engine", "ejs");
@@ -35,42 +34,15 @@ main()
 // Mount the listings router
 app.use("/listings", listings);
 
+// Mount the reviews router
+app.use("/listings/:id/reviews", reviews);
+
 // root route of the app
 app.get("/", (req, res) => {
   res.send("Hello World! this is root page");
 });
 
-// server side validation for review
-const validateReview = (req, res, next) => {
-  const { error } = reviewSchema.validate(req.body);
-  if (error) {
-    const msg = error.details.map((el) => el.message).join(",");
-    throw new ExpressError(msg, 400);
-  } else {
-    next();
-  }
-};
 
-// add review route & here request come from the show page form
-app.post("/listings/:id/reviews", validateReview, wrapAsync(async (req, res) => {
-  let listing = await Listing.findById(req.params.id);
-  if (!listing) {
-    throw new ExpressError("Listing not found", 404);
-  }
-  let newReview = new Review(req.body.review);
-  listing.reviews.push(newReview);
-  await newReview.save();
-  await listing.save();
-  res.redirect(`/listings/${listing._id}`);
-}));
-
-// delete review route 
-app.delete("/listings/:id/reviews/:reviewId", wrapAsync(async (req, res) => {
-  let { id, reviewId } = req.params;
-  await Listing.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
-  await Review.findByIdAndDelete(reviewId);
-  res.redirect(`/listings/${id}`);
-}));
 
 // handle 404s
 app.all("*", (req, res, next) => {
