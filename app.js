@@ -8,10 +8,10 @@ const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const wrapAsync = require("./utils/wrapAsync");
 const ExpressError = require("./utils/expressError");
-const Review = require("./models/review")
+const Review = require("./models/review");
 const { listingSchema, reviewSchema } = require("./schema");
 
-
+const listings = require("./routes/listing");
 
 // setting views engine
 app.set("view engine", "ejs");
@@ -32,111 +32,45 @@ main()
     process.exit(1);
   });
 
+// Mount the listings router
+app.use("/listings", listings);
+
 // root route of the app
 app.get("/", (req, res) => {
   res.send("Hello World! this is root page");
 });
 
-// schema validation error handling middleware
-const validateListing = (req, res, next) => {
-  console.log(req.body);
-  const { error } = listingSchema.validate(req.body.listing);
-  if (error) {
-    const msg = error.details.map((el) => el.message).join(",");
-    throw new ExpressError(msg, 400);
-  } else {
-    next();
-  }
-}
-
 // server side validation for review
 const validateReview = (req, res, next) => {
-  const { error } = reviewSchema.validate(req.body.listing);
-  // console.log("Incoming Review Data:", req.body);
+  const { error } = reviewSchema.validate(req.body);
   if (error) {
     const msg = error.details.map((el) => el.message).join(",");
     throw new ExpressError(msg, 400);
   } else {
     next();
   }
-}
-
-// index route of the app
-app.get("/listings", wrapAsync(async (req, res) => {
-  const allListings = await Listing.find({});
-  res.render("listings/index.ejs", { allListings });
-}));
-
-// new route
-app.get("/listings/new", (req, res) => {
-  res.render("listings/new.ejs");
-});
-
-// Show route
-app.get("/listings/:id", wrapAsync(async (req, res) => {
-  let id = req.params.id;
-  const oneListing = await Listing.findById(id).populate("reviews");
-  if (!oneListing) {
-    throw new ExpressError("Listing not found", 404);
-  }
-  res.render("listings/show.ejs", { oneListing });
-}));
-
-// create route
-app.post("/listings", validateListing,
-  wrapAsync(async (req, res) => {
-    const newListing = new Listing(req.body.listing);
-    await newListing.save();
-    res.redirect("/listings");
-  }));
-
-// edit route
-app.get("/listings/:id/edit", wrapAsync(async (req, res) => {
-  let id = req.params.id;
-  const editlisting = await Listing.findById(id);
-  if (!editlisting) {
-    throw new ExpressError("Listing not found", 404);
-  }
-  res.render("listings/edit.ejs", { editlisting });
-}));
-
-// update route
-app.put("/listings/:id", validateListing, wrapAsync(async (req, res) => {
-  let id = req.params.id;
-  await Listing.findByIdAndUpdate(id, { ...req.body.listing });
-  res.redirect(`/listings/${id}`);
-}));
-
-// delete route
-app.delete("/listings/:id", wrapAsync(async (req, res) => {
-  let id = req.params.id;
-  let deletedListing = await Listing.findByIdAndDelete(id);
-  if (!deletedListing) {
-    throw new ExpressError("Listing not found", 404);
-  }
-  res.redirect("/listings");
-}));
+};
 
 // add review route & here request come from the show page form
-app.post("/listings/:id/reviews",validateReview, wrapAsync(async(req,res)=>{
- let listing =  await Listing.findById(req.params.id);
- let newReview = new Review(req.body.review);
-//  console.log(newReview); 
- listing.reviews.push(newReview);
- await newReview.save();
- await listing.save();
-
- console.log("new review saved");
-    res.redirect(`/listings/${listing._id}`);
+app.post("/listings/:id/reviews", validateReview, wrapAsync(async (req, res) => {
+  let listing = await Listing.findById(req.params.id);
+  if (!listing) {
+    throw new ExpressError("Listing not found", 404);
+  }
+  let newReview = new Review(req.body.review);
+  listing.reviews.push(newReview);
+  await newReview.save();
+  await listing.save();
+  res.redirect(`/listings/${listing._id}`);
 }));
 
 // delete review route 
-app.delete("/listings/:id/reviews/:reviewId", wrapAsync(async(req,res)=>{
-  let {id,reviewId} = req.params;
-  await Listing.findByIdAndUpdate(id,{$pull:{reviews:reviewId}}); // this will delete the review id reference from the listings also
+app.delete("/listings/:id/reviews/:reviewId", wrapAsync(async (req, res) => {
+  let { id, reviewId } = req.params;
+  await Listing.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
   await Review.findByIdAndDelete(reviewId);
   res.redirect(`/listings/${id}`);
-}))
+}));
 
 // handle 404s
 app.all("*", (req, res, next) => {
