@@ -7,6 +7,7 @@ const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const ExpressError = require("./utils/expressError");
 const session = require("express-session");
+const flash = require("connect-flash");
 
 // requiring the routers of the app
 const listings = require("./routes/listing");
@@ -32,11 +33,7 @@ main()
     process.exit(1);
   });
 
-// Mount the listings router
-app.use("/listings", listings);
 
-// Mount the reviews router
-app.use("/listings/:id/reviews", reviews);
 
 // setting up the session
 let sessionConfig = {
@@ -50,14 +47,27 @@ let sessionConfig = {
     maxAge: 1000 * 60 * 60 * 24 * 7,
   },
 };
-app.use(session(sessionConfig));
 
 // root route of the app
 app.get("/", (req, res) => {
   res.send("Hello World! this is root page");
 });
 
+//  flash & Session middleware
+app.use(session(sessionConfig));
+app.use(flash());
 
+app.use((req, res, next) => {
+  res.locals.success = req.flash("success");
+  // res.locals.error = req.flash("error");
+  next();
+});
+
+
+// Mount the listings router
+app.use("/listings", listings);
+// Mount the reviews router
+app.use("/listings/:id/reviews", reviews);
 
 // handle 404s
 app.all("*", (req, res, next) => {
