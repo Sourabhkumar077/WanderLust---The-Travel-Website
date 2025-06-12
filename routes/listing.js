@@ -36,7 +36,8 @@ router.get("/:id", wrapAsync(async (req, res) => {
   let id = req.params.id;
   const oneListing = await Listing.findById(id).populate("reviews");
   if (!oneListing) {
-    throw new ExpressError("Listing not found", 404);
+    req.flash("error", "Requested listing not found");
+    return res.redirect("/listings");
   }
   res.render("listings/show.ejs", { oneListing });
 }));
@@ -54,7 +55,8 @@ router.get("/:id/edit", wrapAsync(async (req, res) => {
   let id = req.params.id;
   const editlisting = await Listing.findById(id);
   if (!editlisting) {
-    throw new ExpressError("Listing not found", 404);
+    req.flash("error", "Requested listing not found");
+    return res.redirect("/listings");
   }
   res.render("listings/edit.ejs", { editlisting });
 }));
