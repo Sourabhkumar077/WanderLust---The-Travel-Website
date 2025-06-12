@@ -43,6 +43,12 @@ let sessionConfig = {
   secret: "thisshouldbeabettersecret!",
   resave: false,
   saveUninitialized: true,
+  cookie: {
+    httpOnly: true, // for security
+
+    expires: Date.now() + 1000 * 60 * 60 * 24 * 7,   // session cookie expires after 7 days
+    maxAge: 1000 * 60 * 60 * 24 * 7,
+  },
 };
 app.use(session(sessionConfig));
 
