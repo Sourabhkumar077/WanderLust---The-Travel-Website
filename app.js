@@ -6,6 +6,7 @@ const path = require("path");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const ExpressError = require("./utils/expressError");
+const session = require("express-session");
 
 // requiring the routers of the app
 const listings = require("./routes/listing");
@@ -36,6 +37,14 @@ app.use("/listings", listings);
 
 // Mount the reviews router
 app.use("/listings/:id/reviews", reviews);
+
+// setting up the session
+let sessionConfig = {
+  secret: "thisshouldbeabettersecret!",
+  resave: false,
+  saveUninitialized: true,
+};
+app.use(session(sessionConfig));
 
 // root route of the app
 app.get("/", (req, res) => {
