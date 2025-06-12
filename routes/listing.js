@@ -66,6 +66,7 @@ router.put("/:id", validateListing, wrapAsync(async (req, res) => {
   if (!updatedListing) {
     throw new ExpressError("Listing not found", 404);
   }
+  req.flash("success", "Listing updated!");
   res.redirect(`/listings/${id}`);
 }));
 
@@ -76,6 +77,7 @@ router.delete("/:id", wrapAsync(async (req, res) => {
   if (!deletedListing) {
     throw new ExpressError("Listing not found", 404);
   }
+  req.flash("success", "Listing deleted!");
   res.redirect("/listings");
 }));
 
