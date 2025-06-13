@@ -8,6 +8,10 @@ const ejsMate = require("ejs-mate");
 const ExpressError = require("./utils/expressError");
 const session = require("express-session");
 const flash = require("connect-flash");
+const passport = require("passport");
+const LocalStrategy = require("passport-local");
+const User = require("./models/user");
+
 
 // requiring the routers of the app
 const listings = require("./routes/listing");
@@ -57,17 +61,34 @@ app.get("/", (req, res) => {
 app.use(session(sessionConfig));
 app.use(flash());
 
+// authentication strategy
+app.use(passport.initialize());
+app.use(passport.session());  // passport middleware
+passport.use(new LocalStrategy(User.authenticate()));
+
+// serialize and deserialize user on session
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 app.use((req, res, next) => {
   res.locals.success = req.flash("success");
   res.locals.error = req.flash("error");
   next();
 });
 
-
 // Mount the listings router
 app.use("/listings", listings);
 // Mount the reviews router
 app.use("/listings/:id/reviews", reviews);
+
+app.get("/demouser", async (req, res) => {
+  const user = new User({ username: "demouser", email: "HsA2F@example.com" });
+  const registeredUser = await User.register(user, "password");
+  res.send(registeredUser);
+});
+
+
+
 
 // handle 404s
 app.all("*", (req, res, next) => {
