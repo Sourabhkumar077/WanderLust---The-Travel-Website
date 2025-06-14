@@ -33,7 +33,17 @@ router.post("/login",
         req.flash("success", "Welcome Back!");
         res.redirect("/listings");
     });
+// logout route
+router.get("/logout", (req, res) => {
+    req.logout((err) => {
+        if (err) {
+            return next(err);
+        }
+        req.flash("success", "Goodbye!");
+        res.redirect("/listings");
+    });
 
+});
 
 
 // exporting the routes 
