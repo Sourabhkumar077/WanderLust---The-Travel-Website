@@ -28,6 +28,11 @@ router.get("/", wrapAsync(async (req, res) => {
 
 // new route - must come before /:id route
 router.get("/new", (req, res) => {
+  console.log(req.user);
+  if(!req.isAuthenticated()) {
+    req.flash("error", "You must be logged in to create a listing");
+    return res.redirect("/login");
+  }
   res.render("listings/new.ejs");
 });
 
