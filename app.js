@@ -14,8 +14,9 @@ const User = require("./models/user");
 
 
 // requiring the routers of the app
-const listings = require("./routes/listing");
-const reviews = require("./routes/review");
+const listingRouter = require("./routes/listing");
+const reviewsRouter = require("./routes/review");
+const userRouter = require("./routes/user");
 
 
 // setting views engine
@@ -76,10 +77,10 @@ app.use((req, res, next) => {
   next();
 });
 
-// Mount the listings router
-app.use("/listings", listings);
-// Mount the reviews router
-app.use("/listings/:id/reviews", reviews);
+// Mount the  routers
+app.use("/listings", listingRouter);
+app.use("/listings/:id/reviews", reviewsRouter);
+app.use("/", userRouter);
 
 app.get("/demouser", async (req, res) => {
   const user = new User({ username: "demouser", email: "HsA2F@example.com" });
