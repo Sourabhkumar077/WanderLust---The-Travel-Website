@@ -1,46 +1,62 @@
 # WanderLust - Travel Listings Platform
 
-WanderLust is a full-stack web application that allows users to create, view, edit, and delete travel listings. Users can also add reviews to listings, making it a complete travel community platform.
+A full-stack web application for managing travel listings and reviews, built with Node.js, Express, and MongoDB.
 
 ## Features
 
-- 🔍 Browse travel listings
-- ➕ Create new travel listings
-- ✏️ Edit existing listings
-- 🗑️ Delete listings
-- ⭐ Add reviews to listings
-- 💬 Comment on listings
-- 🖼️ Automatic default images for listings
-- 📱 Responsive design
+### User Authentication
+- Secure user registration and login system
+- Session-based authentication using Passport.js
+- Protected routes for authenticated users
+- Secure password hashing
+- Flash messages for user feedback
+- Automatic login after registration
+- Smart redirect system for protected routes
+
+### Listings Management
+- Create, read, update, and delete travel listings
+- Image upload support with default fallback
+- Detailed listing information including:
+  - Title and description
+  - Location and country
+  - Price
+  - Category
+  - Multiple images
+
+### Review System
+- Add and manage reviews for listings
+- Rating system
+- Comment functionality
+- Default image support for reviews
+- User association with reviews
+
+### Additional Features
+- Responsive design
+- Error handling middleware
+- Input validation
+- MongoDB integration
+- EJS templating
+- Method override for PUT/PATCH/DELETE requests
+- Static file serving
+- Session management
+- Flash messages
 
 ## Tech Stack
 
-- **Frontend:**
-  - EJS (Embedded JavaScript)
-  - Bootstrap
-  - HTML/CSS
-  - JavaScript
-
-- **Backend:**
-  - Node.js
-  - Express.js
-  - MongoDB
-  - Mongoose
-
-## Prerequisites
-
-Before running this project, make sure you have installed:
-
-- Node.js (v14 or higher)
-- MongoDB (v4.4 or higher)
-- npm (Node Package Manager)
+- **Backend**: Node.js, Express.js
+- **Database**: MongoDB with Mongoose
+- **Authentication**: Passport.js, Local Strategy
+- **Frontend**: EJS, CSS, JavaScript
+- **Session Management**: express-session
+- **File Upload**: Multer
+- **Other**: Method Override, Connect Flash
 
 ## Installation
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/Sourabhkumar077/WanderLust---The-Travel-Website.git
-cd WanderLust
+git clone <repository-url>
+cd wanderlust
 ```
 
 2. Install dependencies:
@@ -48,52 +64,33 @@ cd WanderLust
 npm install
 ```
 
-3. Start MongoDB:
+3. Set up MongoDB:
+- Ensure MongoDB is installed and running on your system
+- The application connects to `mongodb://127.0.0.1:27017/wanderLust`
+
+4. Start the server:
 ```bash
-mongod
+npm start
 ```
 
-4. Start the application:
-```bash
-npm run dev
-```
-
-The application will be available at `http://localhost:3000`
-
-## Project Structure
-
-```
-WanderLust/
-├── models/
-│   ├── listing.js
-│   └── review.js
-├── routes/
-│   ├── listing.js
-│   └── review.js
-├── views/
-│   ├── listings/
-│   │   ├── index.ejs
-│   │   ├── new.ejs
-│   │   ├── show.ejs
-│   │   └── edit.ejs
-│   └── error.ejs
-├── public/
-├── utils/
-│   ├── wrapAsync.js
-│   └── expressError.js
-├── schema.js
-├── app.js
-└── package.json
-```
+5. Access the application:
+- Open your browser and navigate to `http://localhost:3000/listings`
 
 ## API Endpoints
 
+### Authentication
+- `GET /signup` - User registration form
+- `POST /signup` - Create new user account
+- `GET /login` - User login form
+- `POST /login` - Authenticate user
+- `GET /logout` - Logout user
+
 ### Listings
 - `GET /listings` - View all listings
-- `GET /listings/new` - Form to create new listing
+- `GET /listings/new` - Create new listing form
 - `POST /listings` - Create new listing
 - `GET /listings/:id` - View specific listing
-- `GET /listings/:id/edit` - Form to edit listing
+- `GET /listings/:id/edit` - Edit listing form
 - `PUT /listings/:id` - Update listing
 - `DELETE /listings/:id` - Delete listing
 
@@ -101,25 +98,24 @@ WanderLust/
 - `POST /listings/:id/reviews` - Add review to listing
 - `DELETE /listings/:id/reviews/:reviewId` - Delete review
 
-## Features in Detail
+## Security Features
 
-### Listing Management
-- Create new travel listings with title, description, price, location, and country
-- Upload custom images or use default images
-- Edit existing listings
-- Delete listings
+- HTTP-only cookies
+- Session-based authentication
+- Password hashing
+- Protected routes
+- Input validation
+- XSS protection
+- CSRF protection
 
-### Review System
-- Add reviews with ratings (1-5 stars)
-- Add comments to reviews
-- Delete reviews
-- View all reviews for a listing
+## Error Handling
 
-### Error Handling
-- Custom error pages
-- Form validation
-- Server-side validation
-- Client-side validation
+The application includes comprehensive error handling:
+- 404 Not Found errors
+- Validation errors
+- Authentication errors
+- Database errors
+- Custom error middleware
 
 ## Contributing
 
@@ -131,15 +127,9 @@ WanderLust/
 
 ## License
 
-This project is licensed under the ISC License.
+This project is licensed under the MIT License - see the LICENSE file for details.
 
-## Author
+## Contact
 
-Sourabh Kumar
-
-## Acknowledgments
-
-- Unsplash for default images
-- Bootstrap for UI components
-- MongoDB for database
-- Express.js for backend framework 
+Your Name - your.email@example.com
+Project Link: [https://github.com/yourusername/wanderlust](https://github.com/yourusername/wanderlust) 
