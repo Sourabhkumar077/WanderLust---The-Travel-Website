@@ -5,6 +5,7 @@ const wrapAsync = require("../utils/wrapAsync");
 const ExpressError = require("../utils/expressError");
 const Listing = require("../models/listing");
 const { listingSchema } = require("../schema");
+const {isLoggedIn} = require("../middleware");
 
 // schema validation error handling middleware
 const validateListing = (req, res, next) => {
@@ -27,12 +28,7 @@ router.get("/", wrapAsync(async (req, res) => {
 }));
 
 // new route - must come before /:id route
-router.get("/new", (req, res) => {
-  console.log(req.user);
-  if(!req.isAuthenticated()) {
-    req.flash("error", "You must be logged in to create a listing");
-    return res.redirect("/login");
-  }
+router.get("/new",isLoggedIn, (req, res) => {
   res.render("listings/new.ejs");
 });
 
@@ -48,7 +44,7 @@ router.get("/:id", wrapAsync(async (req, res) => {
 }));
 
 // create route
-router.post("/", validateListing, wrapAsync(async (req, res) => {
+router.post("/", isLoggedIn,validateListing, wrapAsync(async (req, res) => {
   const newListing = new Listing(req.body.listing);
   await newListing.save();
   req.flash("success", "New listing created!");
@@ -56,7 +52,7 @@ router.post("/", validateListing, wrapAsync(async (req, res) => {
 }));
 
 // edit route
-router.get("/:id/edit", wrapAsync(async (req, res) => {
+router.get("/:id/edit", isLoggedIn,wrapAsync(async (req, res) => {
   let id = req.params.id;
   const editlisting = await Listing.findById(id);
   if (!editlisting) {
@@ -78,7 +74,7 @@ router.put("/:id", validateListing, wrapAsync(async (req, res) => {
 }));
 
 // delete route
-router.delete("/:id", wrapAsync(async (req, res) => {
+router.delete("/:id",isLoggedIn, wrapAsync(async (req, res) => {
   let id = req.params.id;
   let deletedListing = await Listing.findByIdAndDelete(id);
   if (!deletedListing) {
