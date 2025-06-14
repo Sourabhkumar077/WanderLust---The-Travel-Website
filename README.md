@@ -55,7 +55,7 @@ A full-stack web application for managing travel listings and reviews, built wit
 
 1. Clone the repository:
 ```bash
-git clone <repository-url>
+git clone https://github.com/Sourabhkumar077/WanderLust---The-Travel-Website.git
 cd wanderlust
 ```
 
@@ -131,5 +131,5 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## Contact
 
-Your Name - your.email@example.com
-Project Link: [https://github.com/yourusername/wanderlust](https://github.com/yourusername/wanderlust) 
+Sourabh kumar Mahuvar - sourabhmahuvar@gmail.com
+Project Link: [https://github.com/Sourabhkumar077/wanderlust](https://github.com/Sourabhkumar077/wanderlust) 
