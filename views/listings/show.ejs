@@ -23,7 +23,7 @@
       </div>
     </div>
 </div>
- <%  if( currentUser && currentUser._id.equals(oneListing.owner._id)) { %>
+
 <div class="show-btns offset-3">
   <form action="/listings/<%=oneListing._id%>/edit" method="GET">
     <button type="submit" class="btn btn-dark edit-btn">Edit</button>
@@ -33,7 +33,7 @@
   </form>
 </div>
 
-<% } %>
+
 
 <!-- Review Section -->
 <div class="col-6 offset-2 mb-3">
