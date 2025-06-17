@@ -4,19 +4,21 @@ const router = express.Router({ mergeParams: true });
 const wrapAsync = require("../utils/wrapAsync");
 const Listing = require("../models/listing");
 const Review = require("../models/review");
-const {validateReview} = require("../middleware");
+const {validateReview,isLoggedIn} = require("../middleware");
 
 
 // server side validation for review
 
 
 // add review route & here request come from the show page form
-router.post("/", validateReview, wrapAsync(async (req, res) => {
+router.post("/",isLoggedIn, validateReview, wrapAsync(async (req, res) => {
   let listing = await Listing.findById(req.params.id);
   if (!listing) {
     throw new ExpressError("Listing not found", 404);
   }
   let newReview = new Review(req.body.review);
+  newReview.author = req.user._id; // add author to review
+  // console.log(newReview);
   listing.reviews.push(newReview);
   await newReview.save();
   await listing.save();
