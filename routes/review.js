@@ -2,21 +2,13 @@ const express = require("express");
 const router = express.Router({ mergeParams: true });
 // requiring essential model of lisntings route
 const wrapAsync = require("../utils/wrapAsync");
-const ExpressError = require("../utils/expressError");
 const Listing = require("../models/listing");
 const Review = require("../models/review");
-const { reviewSchema } = require("../schema");
+const {validateReview} = require("../middleware");
+
 
 // server side validation for review
-const validateReview = (req, res, next) => {
-  const { error } = reviewSchema.validate(req.body);
-  if (error) {
-    const msg = error.details.map((el) => el.message).join(",");
-    throw new ExpressError(msg, 400);
-  } else {
-    next();
-  }
-};
+
 
 // add review route & here request come from the show page form
 router.post("/", validateReview, wrapAsync(async (req, res) => {
