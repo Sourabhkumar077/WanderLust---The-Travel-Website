@@ -12,11 +12,12 @@
       />
       <div class="card-body">
         <p class="card-text">
-          <%=oneListing.description%> <br />
-          &#8377; <%= oneListing.price?.toLocaleString("en-IN") || 'Price Not Available' %> / night <br />
+          <p>Owned By: <i><%= oneListing.owner.username %></i></p>
+          <p><%=oneListing.description%> </p>
+          <p>&#8377; <%= oneListing.price?.toLocaleString("en-IN") || 'Price Not Available' %> / night </p>
           <!-- using the toLocaleString() method to add commas in price with indian  standard -->
-          <%=oneListing.location%> <br />
-          <%=oneListing.country%> <br />
+          <P><%=oneListing.location%> </P>
+          <P><%=oneListing.country%> </P>
         </p>
       </div>
     </div>
