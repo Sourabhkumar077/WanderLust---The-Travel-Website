@@ -10,6 +10,7 @@
         class="card-img-top show-img"
         alt="listings_image"
       />
+
       <div class="card-body">
         <p class="card-text">
           <p>Owned By: <i><%= oneListing.owner.username %></i></p>
@@ -22,7 +23,7 @@
       </div>
     </div>
 </div>
-
+ <%  if( currentUser && currentUser._id.equals(oneListing.owner._id)) { %>
 <div class="show-btns offset-3">
   <form action="/listings/<%=oneListing._id%>/edit" method="GET">
     <button type="submit" class="btn btn-dark edit-btn">Edit</button>
@@ -31,6 +32,8 @@
     <button type="submit" class="btn btn-dark offset-3">Delete</button>
   </form>
 </div>
+
+<% } %>
 
 <!-- Review Section -->
 <div class="col-6 offset-2 mb-3">
