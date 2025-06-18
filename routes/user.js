@@ -8,13 +8,13 @@ const userController = require("../controllers/userController");
 
 // signup functionality routes GET + POST
 router.route("/signup")
-    .get("/signup", userController.renderSignupForm)
-    .post("/signup", wrapAsync(userController.signup));
+    .get(userController.renderSignupForm)
+    .post(wrapAsync(userController.signup));
 
 // implementing the login functionality routes
 router.route("/login")
-    .get("/login", userController.renderLoginForm)
-    .post("/login",
+    .get(userController.renderLoginForm)
+    .post(
         saveRedirectUrl,
         passport.authenticate("local", {
             failureRedirect: '/login',
