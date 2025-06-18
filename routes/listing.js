@@ -4,32 +4,25 @@ const router = express.Router();
 const wrapAsync = require("../utils/wrapAsync");
 const ExpressError = require("../utils/expressError");
 const Listing = require("../models/listing");
-const { isLoggedIn, isOwner,validateListing } = require("../middleware");
+const { isLoggedIn, isOwner, validateListing } = require("../middleware");
 
 // requiring the controllers file 
 const listingController = require("../controllers/listingController");
 
-
-
-// index route of the app
-router.get("/", wrapAsync(listingController.index)); 
+router.route("/")
+    .get(wrapAsync(listingController.index))
+    .post(isLoggedIn, validateListing, wrapAsync(listingController.createListings));
 
 // new route - must come before /:id route
 router.get("/new", isLoggedIn, listingController.renderNewForm);
 
-// Show route
-router.get("/:id", wrapAsync(listingController.showListings));
-
-// create route
-router.post("/", isLoggedIn, validateListing, wrapAsync(listingController.createListings));
+// Show route & update , delete route
+router.route("/:id")
+    .get(wrapAsync(listingController.showListings))
+    .put(isOwner, validateListing, wrapAsync(listingController.updateListings))
+    .delete(isOwner, isLoggedIn, wrapAsync(listingController.destroyListing));
 
 // edit route
 router.get("/:id/edit", isLoggedIn, isOwner, wrapAsync(listingController.renderEditForm));
-
-// update route
-router.put("/:id", isOwner, validateListing, wrapAsync(listingController.updateListings));
-
-// delete route
-router.delete("/:id", isOwner, isLoggedIn, wrapAsync(listingController.destroyListing));
 
 module.exports = router; // ✅ Export the router directly
