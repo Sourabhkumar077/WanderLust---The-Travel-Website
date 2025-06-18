@@ -6,12 +6,18 @@ const ExpressError = require("../utils/expressError");
 const Listing = require("../models/listing");
 const { isLoggedIn, isOwner, validateListing } = require("../middleware");
 
+const multer  = require('multer')
+const upload = multer({ dest: 'uploads/' })
+
 // requiring the controllers file 
 const listingController = require("../controllers/listingController");
 
 router.route("/")
     .get(wrapAsync(listingController.index))
-    .post(isLoggedIn, validateListing, wrapAsync(listingController.createListings));
+    .post(upload.single('listing[image][url]'),(req,res)=>{
+        res.send(req.files);
+    })
+    // .post(isLoggedIn, validateListing, wrapAsync(listingController.createListings));
 
 // new route - must come before /:id route
 router.get("/new", isLoggedIn, listingController.renderNewForm);
