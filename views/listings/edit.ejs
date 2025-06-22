@@ -1,88 +1,145 @@
 <% layout('/layouts/boilerplate.ejs') -%>
-<body>
-  <h3>Edit this listing</h3>
-  <div class="row mt-3">
-    <div class="col-8">
-      <form
-        method="POST"
-        class="needs-validation"
-        action="/listings/<%=editlisting._id%>?_method=PUT"
-        enctype="multipart/form-data"
-        novalidate
-      >
-        <div class="mb-3">
-          <label for="title" class="form-label">Title</label>
-          <input
-            type="text"
-            name="listing[title]"
-            value="<%= editlisting.title %>"
-            class="form-control"
-            required
-          />
-          <div class="valid-feedback">Title Looks good!</div>
-        </div>
-        <div class="md-3">
-          <label for="description">Description</label>
-          <textarea
-            type="text"
-            name="listing[description]"
-            class="form-control"
-            required
-          >
-            <%=editlisting.description %></textarea
-          >
-          <div class="invalid-feedback">Enter a short description</div>
-        </div>
-        <div class="row">
-          <div class="md-3 col-md-4">
-            <label for="price" class="form-label">Price</label>
-            <input
-              class="form-control"
-              type="number"
-              name="listing[price]"
-              value="<%= editlisting.price %>"
-              required
-            />
-            <div class="invalid-feedback">Enter a valid price</div>
-          </div>
-
-          <div class="md-3 col-md-8">
-            <label for="location" class="form-label">Location</label>
-            <input
-              type="text"
-              name="listing[location]"
-              value="<%= editlisting.location %>"
-              class="form-control"
-              required
-            />
-            <div class="invalid-feedback">Enter a valid location name</div>
-          </div>
-        </div>
-        <div class="md-3">
-          Original listing image <br>
-          <img src="<%= updatedImageUrl %>" alt="">
-        </div>
-        <div class="md-3">
-          <label for="image" class="form-label">Upload an Image </label>
-          <input
-            type="file"
-            name="listing[image]"
-            class="form-control"
-          />
-        </div>
-        <div class="md-3">
-          <label for="country" class="form-label">Country</label>
-          <input
-            type="text"
-            name="listing[country]"
-            value="<%= editlisting.country %>"
-            class="form-control"
-            required
-          />
-          <div class="invalid-feedback">Enter a valid Country name</div>
-        </div>
-        <button class="btn btn-dark mt-3 edit-btn">Upadate</button>
-      </form>
+<div class="auth-container" style="max-width: 800px;">
+  <h3>
+    <i class="fa-solid fa-edit me-2"></i>
+    Edit Listing
+  </h3>
+  
+  <form
+    method="POST"
+    class="needs-validation"
+    action="/listings/<%=editlisting._id%>?_method=PUT"
+    enctype="multipart/form-data"
+    novalidate
+  >
+    <div class="mb-4">
+      <label for="title" class="form-label">
+        <i class="fa-solid fa-heading me-2"></i>Title
+      </label>
+      <input
+        type="text"
+        name="listing[title]"
+        id="title"
+        value="<%= editlisting.title %>"
+        class="form-control"
+        required
+      />
+      <div class="valid-feedback">Title looks good!</div>
+      <div class="invalid-feedback">Please enter a title</div>
     </div>
-  </div>
-</body>
+    
+    <div class="mb-4">
+      <label for="description" class="form-label">
+        <i class="fa-solid fa-align-left me-2"></i>Description
+      </label>
+      <textarea
+        id="description"
+        name="listing[description]"
+        class="form-control"
+        rows="4"
+        required
+      ><%=editlisting.description %></textarea>
+      <div class="invalid-feedback">Please provide a description</div>
+    </div>
+    
+    <div class="row">
+      <div class="mb-4 col-md-6">
+        <label for="price" class="form-label">
+          <i class="fa-solid fa-indian-rupee-sign me-2"></i>Price per Night
+        </label>
+        <input
+          class="form-control"
+          type="number"
+          name="listing[price]"
+          id="price"
+          value="<%= editlisting.price %>"
+          min="0"
+          required
+        />
+        <div class="invalid-feedback">Please enter a valid price</div>
+      </div>
+
+      <div class="mb-4 col-md-6">
+        <label for="location" class="form-label">
+          <i class="fa-solid fa-map-marker-alt me-2"></i>Location
+        </label>
+        <input
+          type="text"
+          name="listing[location]"
+          id="location"
+          value="<%= editlisting.location %>"
+          class="form-control"
+          required
+        />
+        <div class="invalid-feedback">Please enter a valid location</div>
+      </div>
+    </div>
+    
+    <div class="mb-4">
+      <label class="form-label">
+        <i class="fa-solid fa-image me-2"></i>Current Image
+      </label>
+      <div class="text-center">
+        <img src="<%= updatedImageUrl %>" alt="Current listing image" class="img-fluid rounded" style="max-height: 200px;">
+      </div>
+    </div>
+    
+    <div class="mb-4">
+      <label for="image" class="form-label">
+        <i class="fa-solid fa-upload me-2"></i>Upload New Image
+      </label>
+      <input
+        type="file"
+        name="listing[image]"
+        id="image"
+        class="form-control"
+        accept="image/*"
+      />
+      <small class="text-muted">
+        <i class="fa-solid fa-info-circle me-1"></i>
+        Leave empty to keep the current image
+      </small>
+    </div>
+    
+    <div class="mb-4">
+      <label for="country" class="form-label">
+        <i class="fa-solid fa-flag me-2"></i>Country
+      </label>
+      <input
+        type="text"
+        name="listing[country]"
+        id="country"
+        value="<%= editlisting.country %>"
+        class="form-control"
+        required
+      />
+      <div class="invalid-feedback">Please enter a valid country</div>
+    </div>
+    
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+      <a href="/listings/<%=editlisting._id%>" class="btn btn-outline-secondary me-md-2">
+        <i class="fa-solid fa-arrow-left me-2"></i>Cancel
+      </a>
+      <button class="btn btn-success edit-btn" type="submit">
+        <i class="fa-solid fa-save me-2"></i>Update Listing
+      </button>
+    </div>
+  </form>
+</div>
+
+<script>
+// Form validation
+(function () {
+  'use strict'
+  var forms = document.querySelectorAll('.needs-validation')
+  Array.prototype.slice.call(forms).forEach(function (form) {
+    form.addEventListener('submit', function (event) {
+      if (!form.checkValidity()) {
+        event.preventDefault()
+        event.stopPropagation()
+      }
+      form.classList.add('was-validated')
+    }, false)
+  })
+})()
+</script>

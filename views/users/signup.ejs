@@ -1,40 +1,82 @@
 <% layout('/layouts/boilerplate.ejs') -%>
-<div class="row">
-  <h3 class="col-6 offset-3 mt-2">Signup on WanderLust</h3>
-  <div class="col-6 offset-3">
-    <form action="/signup" method="POST" class="needs-validation" novalidate>
-      <div class="mb-3">
-        <label for="username" class="form-label">username</label>
-        <input
-          type="text"
-          name="username"
-          id="username"
-          class="form-control"
-          required
-        />
-        <div class="valid-feedback">Looks good!</div>
-      </div>
-      <div class="mb-3">
-        <label for="email" class="form-label">Email</label>
-        <input
-          type="text"
-          name="email"
-          id="email"
-          class="form-control"
-          required
-        />
-      </div>
-      <div class="mb-3">
-        <label for="password" class="form-label">password</label>
-        <input
-          type="password"
-          name="password"
-          id="password"
-          class="form-control"
-          required
-        />
-      </div>
-      <button class="btn btn-success">SignUp</button>
-    </form>
-  </div>
+<div class="auth-container">
+  <h3>Join WanderLust Today</h3>
+  <form action="/signup" method="POST" class="needs-validation" novalidate>
+    <div class="mb-4">
+      <label for="username" class="form-label">
+        <i class="fa-solid fa-user me-2"></i>Username
+      </label>
+      <input
+        type="text"
+        name="username"
+        id="username"
+        class="form-control"
+        placeholder="Choose a unique username"
+        required
+      />
+      <div class="valid-feedback">Username looks good!</div>
+      <div class="invalid-feedback">Please choose a username</div>
+    </div>
+    
+    <div class="mb-4">
+      <label for="email" class="form-label">
+        <i class="fa-solid fa-envelope me-2"></i>Email
+      </label>
+      <input
+        type="email"
+        name="email"
+        id="email"
+        class="form-control"
+        placeholder="Enter your email address"
+        required
+      />
+      <div class="invalid-feedback">Please enter a valid email address</div>
+    </div>
+    
+    <div class="mb-4">
+      <label for="password" class="form-label">
+        <i class="fa-solid fa-lock me-2"></i>Password
+      </label>
+      <input
+        type="password"
+        name="password"
+        id="password"
+        class="form-control"
+        placeholder="Create a strong password"
+        required
+      />
+      <div class="invalid-feedback">Please create a password</div>
+    </div>
+    
+    <div class="d-grid">
+      <button class="btn btn-success btn-lg">
+        <i class="fa-solid fa-user-plus me-2"></i>Create Account
+      </button>
+    </div>
+    
+    <div class="text-center mt-4">
+      <p class="mb-0">Already have an account? 
+        <a href="/login" class="text-decoration-none" style="color: #6c757d; font-weight: 600;">
+          Login here
+        </a>
+      </p>
+    </div>
+  </form>
 </div>
+
+<script>
+// Form validation
+(function () {
+  'use strict'
+  var forms = document.querySelectorAll('.needs-validation')
+  Array.prototype.slice.call(forms).forEach(function (form) {
+    form.addEventListener('submit', function (event) {
+      if (!form.checkValidity()) {
+        event.preventDefault()
+        event.stopPropagation()
+      }
+      form.classList.add('was-validated')
+    }, false)
+  })
+})()
+</script>
