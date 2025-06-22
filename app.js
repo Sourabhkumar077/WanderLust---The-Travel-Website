@@ -58,11 +58,6 @@ let sessionConfig = {
   },
 };
 
-// root route of the app
-app.get("/", (req, res) => {
-  res.send("Hello World! this is root page");
-});
-
 //  flash & Session middleware
 app.use(session(sessionConfig));
 app.use(flash());
