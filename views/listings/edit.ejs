@@ -7,6 +7,7 @@
         method="POST"
         class="needs-validation"
         action="/listings/<%=editlisting._id%>?_method=PUT"
+        enctype="multipart/form-data"
         novalidate
       >
         <div class="mb-3">
@@ -30,9 +31,7 @@
           >
             <%=editlisting.description %></textarea
           >
-          <div class="invalid-feedback">
-        Enter a short description
-      </div>
+          <div class="invalid-feedback">Enter a short description</div>
         </div>
         <div class="row">
           <div class="md-3 col-md-4">
@@ -44,9 +43,7 @@
               value="<%= editlisting.price %>"
               required
             />
-             <div class="invalid-feedback">
-        Enter a valid price
-      </div>
+            <div class="invalid-feedback">Enter a valid price</div>
           </div>
 
           <div class="md-3 col-md-8">
@@ -58,23 +55,20 @@
               class="form-control"
               required
             />
-            <div class="invalid-feedback">
-        Enter a valid location name
-      </div>
+            <div class="invalid-feedback">Enter a valid location name</div>
           </div>
         </div>
         <div class="md-3">
-          <label for="image" class="form-label">Image link</label>
+          Original listing image <br>
+          <img src="<%= updatedImageUrl %>" alt="">
+        </div>
+        <div class="md-3">
+          <label for="image" class="form-label">Upload an Image </label>
           <input
-            type="text"
+            type="file"
             name="listing[image]"
-            value="<%= editlisting.image.url %>"
             class="form-control"
-            required
           />
-          <div class="invalid-feedback">
-        Enter a valid Image Link
-      </div>
         </div>
         <div class="md-3">
           <label for="country" class="form-label">Country</label>
@@ -85,13 +79,10 @@
             class="form-control"
             required
           />
-          <div class="invalid-feedback">
-        Enter a valid Country name
-      </div>
+          <div class="invalid-feedback">Enter a valid Country name</div>
         </div>
         <button class="btn btn-dark mt-3 edit-btn">Upadate</button>
       </form>
     </div>
   </div>
 </body>
-

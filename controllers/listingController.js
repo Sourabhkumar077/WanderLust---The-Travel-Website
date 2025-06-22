@@ -20,7 +20,7 @@ module.exports.showListings = async (req, res) => {
       }
     })
     .populate("owner");
-  
+
   if (!oneListing) {
     req.flash("error", "Requested listing not found");
     return res.redirect("/listings");
@@ -31,10 +31,9 @@ module.exports.showListings = async (req, res) => {
 
 module.exports.createListings = async (req, res) => {
   const newListing = new Listing(req.body.listing);
-  console.log(req.file);
+  // console.log(req.file); - for debug only
   if (req.file) {
-    console.log("yes,file found");
-    
+
     newListing.image = {
       url: req.file.path,
       filename: req.file.filename
@@ -53,15 +52,26 @@ module.exports.renderEditForm = async (req, res) => {
     req.flash("error", "Requested listing not found");
     return res.redirect("/listings");
   }
-  res.render("listings/edit.ejs", { editlisting });
+  // updated the image dimensions
+  let originalImageUrl = editlisting.image.url;
+  let updatedImageUrl = originalImageUrl.replace("/upload", "/upload/h_300,w_250");
+  res.render("listings/edit.ejs", { editlisting, updatedImageUrl });
 };
 
 module.exports.updateListings = async (req, res) => {
   let id = req.params.id;
-  const updatedListing = await Listing.findByIdAndUpdate(id, { ...req.body.listing });
+  let updatedListing = await Listing.findByIdAndUpdate(id, { ...req.body.listing });
   if (!updatedListing) {
     throw new ExpressError("Listing not found", 404);
   }
+  if (typeof req.file != "undefined") {
+    updatedListing.image = {
+      url: req.file.path,
+      filename: req.file.filename
+    };
+    await updatedListing.save();
+  }
+
   req.flash("success", "Listing updated!");
   res.redirect(`/listings/${id}`);
 };
