@@ -1,6 +1,6 @@
 # WanderLust - Modern Travel Listings Platform
 
-A full-stack web application for managing travel listings and reviews, built with Node.js, Express, and MongoDB. Features a modern, responsive design with enhanced user experience.
+A full-stack web application for managing travel listings and reviews, built with Node.js, Express, and MongoDB. This project was developed during my full-stack development learning journey, featuring a modern, responsive design with enhanced user experience.
 
 ## ✨ Features
 
@@ -235,29 +235,32 @@ CLOUD_API_SECRET=your_cloudinary_api_secret
 npm start
 ```
 
-## 🤝 Contributing
+## 📚 Learning Journey
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+This project was built as part of my full-stack development learning journey. It demonstrates:
+
+- **Backend Development**: Node.js, Express, MongoDB
+- **Frontend Development**: EJS templating, CSS, JavaScript
+- **Authentication**: Session management and user authorization
+- **Database Design**: MongoDB schemas and relationships
+- **API Development**: RESTful endpoints and middleware
+- **Responsive Design**: Mobile-first approach
+- **Modern UI/UX**: Professional styling and user experience
 
 ## 📝 License
 
 This project is licensed under the ISC License.
 
-## 👨‍💻 Author
+## 👨‍💻 Developer
 
 **Sourabh Kumar Mahuvar**
 - Email: sourabhmahuvar@gmail.com
 - GitHub: [@Sourabhkumar077](https://github.com/Sourabhkumar077)
 
-## 🔗 Links
+## 🔗 Project Links
 
-- **Project Repository**: [https://github.com/Sourabhkumar077/wanderlust](https://github.com/Sourabhkumar077/wanderlust)
-- **Live Demo**: [Add your deployment URL here]
+- **Repository**: [https://github.com/Sourabhkumar077/wanderlust](https://github.com/Sourabhkumar077/wanderlust)
 
 ---
 
-⭐ **Star this repository if you found it helpful!** 
+*This project showcases my skills in full-stack web development and demonstrates practical application of modern web technologies.*
