@@ -448,3 +448,107 @@ h3::after {
   opacity: 1;
   transform: translateY(0);
 }
+
+/* Button & link ripple/press effect */
+.btn, .listing-link, .filter {
+  position: relative;
+  overflow: hidden;
+}
+.btn:active, .listing-link:active, .filter:active {
+  transform: scale(0.97);
+  transition: transform 0.1s cubic-bezier(0.4,0,0.2,1);
+}
+
+/* Ripple effect */
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  transform: scale(0);
+  animation: ripple 0.6s linear;
+  background-color: rgba(0,0,0,0.15);
+  pointer-events: none;
+  z-index: 2;
+}
+@keyframes ripple {
+  to {
+    transform: scale(2.5);
+    opacity: 0;
+  }
+}
+
+/* Page fade transitions */
+.fade-page {
+  opacity: 0;
+  transition: opacity 0.5s cubic-bezier(0.4,0,0.2,1);
+}
+.fade-page.visible {
+  opacity: 1;
+}
+
+/* Input focus & validation */
+.form-control:focus {
+  border-color: #764ba2;
+  box-shadow: 0 0 0 2px rgba(118,75,162,0.15);
+  transition: box-shadow 0.3s, border-color 0.3s;
+}
+.form-control:invalid {
+  border-color: #fe424d;
+  box-shadow: 0 0 0 2px rgba(254,66,77,0.15);
+}
+.form-control:valid {
+  border-color: #28a745;
+  box-shadow: 0 0 0 2px rgba(40,167,69,0.15);
+}
+
+/* Card hover overlay */
+.listing-card .card-img-overlay {
+  opacity: 0;
+  transition: opacity 0.3s;
+  background: linear-gradient(135deg,rgba(118,75,162,0.08),rgba(102,126,234,0.08));
+}
+.listing-card:hover .card-img-overlay {
+  opacity: 1;
+}
+
+/* Filter selection highlight */
+.filter.selected {
+  box-shadow: 0 2px 12px rgba(118,75,162,0.12);
+  border: 2px solid #764ba2;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  color: #764ba2;
+}
+
+/* Flash message animation */
+.flash-message {
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: opacity 0.5s, transform 0.5s;
+  z-index: 9999;
+}
+.flash-message.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Scroll-to-top button */
+#scrollToTopBtn {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  box-shadow: 0 4px 16px rgba(102,126,234,0.15);
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+  z-index: 1000;
+}
+#scrollToTopBtn.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
