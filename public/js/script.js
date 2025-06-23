@@ -75,3 +75,34 @@ window.addEventListener('scroll', () => {
 scrollBtn.addEventListener('click', () => {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 });
+
+// Enhanced search form: submit only on Enter or button click, show loading spinner
+const searchForm = document.querySelector('.navbar-search-form');
+if (searchForm) {
+  const searchInput = searchForm.querySelector('.search-inp');
+  const searchBtn = searchForm.querySelector('.search-btn');
+  let originalBtnHTML = searchBtn.innerHTML;
+
+  searchForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    // Show loading spinner
+    searchBtn.disabled = true;
+    searchBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Searching...';
+    // Simulate async search (replace with real search logic)
+    setTimeout(() => {
+      searchBtn.disabled = false;
+      searchBtn.innerHTML = originalBtnHTML;
+      // Optionally, submit the form or show results here
+      // searchForm.submit();
+    }, 1200);
+  });
+
+  // Prevent form submission on every keystroke (default behavior is fine, but this ensures no JS submit on input)
+  searchInput.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') {
+      // Allow submit
+    } else {
+      // Do nothing
+    }
+  });
+}

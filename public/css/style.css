@@ -552,3 +552,47 @@ h3::after {
   opacity: 1;
   pointer-events: auto;
 }
+
+/* Search bar optimization */
+@media (max-width: 768px) {
+    .navbar-search-form {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.5rem;
+        margin-left: 0;
+        width: 100%;
+    }
+    .search-group {
+        width: 100%;
+    }
+    .search-inp {
+        min-width: 0;
+        width: 100%;
+        margin-right: 0;
+        font-size: 1.1rem;
+        padding-left: 1.2rem;
+        padding-right: 1.2rem;
+    }
+    .search-label {
+        left: 1.2rem;
+        font-size: 1.1rem;
+    }
+    .search-btn {
+        width: 100%;
+        justify-content: center;
+        font-size: 1.1rem;
+        padding: 0.9rem 0;
+        min-height: 48px;
+    }
+}
+@media (max-width: 480px) {
+    .search-inp, .search-btn {
+        font-size: 1rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    .search-label {
+        left: 1rem;
+        font-size: 1rem;
+    }
+}
