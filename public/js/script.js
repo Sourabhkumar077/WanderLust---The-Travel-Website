@@ -106,3 +106,26 @@ if (searchForm) {
     }
   });
 }
+
+// Contact form: show success message and clear form
+const contactForm = document.getElementById('contactForm');
+if (contactForm) {
+  contactForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    document.getElementById('contactSuccess').classList.remove('d-none');
+    contactForm.reset();
+    setTimeout(() => {
+      document.getElementById('contactSuccess').classList.add('d-none');
+    }, 3500);
+  });
+}
+
+// Animate the 3D globe with a floating effect
+const globe3d = document.getElementById('globe3d');
+if (globe3d) {
+  let t = 0;
+  setInterval(() => {
+    t += 0.03;
+    globe3d.style.transform = `translateY(${Math.sin(t) * 10}px) rotateY(${t * 30}deg)`;
+  }, 30);
+}

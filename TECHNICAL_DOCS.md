@@ -1,6 +1,6 @@
-# Nomadic Nights - Technical Documentation
+# WanderLust - Technical Documentation
 
-This document contains detailed technical information about the Nomadic Nights application architecture, API endpoints, database schema, and implementation details.
+This document contains detailed technical information about the WanderLust application architecture, API endpoints, database schema, and implementation details.
 
 ## 📊 Database Schema
 
@@ -86,7 +86,7 @@ This document contains detailed technical information about the Nomadic Nights a
 
 ### Directory Structure
 ```
-nomadic-nights/
+wanderlust/
 ├── app.js                 # Main application file
 ├── package.json           # Dependencies and scripts
 ├── models/               # Database models
@@ -271,5 +271,5 @@ Review Input → Validation → Database Save → Update Listing → Redirect
 
 ---
 
-*This technical documentation provides comprehensive information about the Nomadic Nights application architecture and implementation details.* 
+*This technical documentation provides comprehensive information about the WanderLust application architecture and implementation details.* 
  ### Owner - *Sourabh Kumar*

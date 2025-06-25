@@ -1,4 +1,4 @@
-# Nomadic Nights - Modern Travel Listings Platform
+# WanderLust - Modern Travel Listings Platform
 
 A full-stack web application for travelers and wanderers to find unique places to stay during their journey, making every night of their adventure special and memorable. Built with Node.js, Express, and MongoDB, featuring a modern, responsive design with enhanced user experience.
 
@@ -143,6 +143,6 @@ This project is licensed under the ISC License.
 
 ---
 
-*Nomadic Nights - Making every night of your adventure special and memorable.*
+*WanderLust - Making every night of your adventure special and memorable.*
 
 *This project showcases my skills in full-stack web development and demonstrates practical application of modern web technologies.*

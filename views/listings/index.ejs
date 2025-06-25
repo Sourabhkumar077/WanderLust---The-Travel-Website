@@ -180,6 +180,13 @@
   }
 </style>
 <body>
+  <!-- About/Welcome Section -->
+  <section class="hero-minimalist py-5">
+    <h1 class="display-4 fw-bold mb-2">WanderLust</h1>
+    <p class="lead text-muted mb-3">Your gateway to unique stays and unforgettable experiences.</p>
+    <a href="#all-listings" class="text-decoration-underline small">Browse Listings ↓</a>
+  </section>
+
   <div class="filters">
     <div class="filter">
       <div class="icon"><i class="fa-solid fa-fire"></i></div>
@@ -242,6 +249,7 @@
     </div>
   </div>
 
+  <h2 class="listings-heading mb-4 mt-4" id="all-listings">All Listings</h2>
   <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-3">
     <% for(let listing of allListings){ %>
     <a href="/listings/<%=listing._id%>" class="listing-link">
@@ -268,6 +276,109 @@
     </a>
     <% } %>
   </div>
+
+  <!-- How It Works / Features Section (moved below listings) -->
+  <section id="how-it-works" class="features-section mb-5 mt-5">
+    <h2 class="features-title">How It Works</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <i class="fa-solid fa-search-location feature-icon"></i>
+        <h5>Discover Stays</h5>
+        <p>Browse and search for unique homes, cabins, and experiences around the world.</p>
+      </div>
+      <div class="feature-card">
+        <i class="fa-solid fa-house-user feature-icon"></i>
+        <h5>Host Your Place</h5>
+        <p>List your property and earn by sharing your space with travelers.</p>
+      </div>
+      <div class="feature-card">
+        <i class="fa-solid fa-star feature-icon"></i>
+        <h5>Leave Reviews</h5>
+        <p>Share your experiences and help others choose the perfect stay.</p>
+      </div>
+      <div class="feature-card">
+        <i class="fa-solid fa-shield-alt feature-icon"></i>
+        <h5>Safe & Secure</h5>
+        <p>Enjoy secure bookings, verified hosts, and 24/7 support for peace of mind.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact/FAQ Section (moved to bottom) -->
+  <section class="contact-faq-section mb-5 mt-5">
+    <div class="row g-4">
+      <div class="col-md-6">
+        <div class="contact-card p-4 h-100">
+          <h3>Contact Us</h3>
+          <form id="contactForm" autocomplete="off">
+            <div class="mb-3">
+              <label for="contactName" class="form-label">Name</label>
+              <input type="text" class="form-control" id="contactName" required />
+            </div>
+            <div class="mb-3">
+              <label for="contactEmail" class="form-label">Email</label>
+              <input type="email" class="form-control" id="contactEmail" required />
+            </div>
+            <div class="mb-3">
+              <label for="contactMsg" class="form-label">Message</label>
+              <textarea class="form-control" id="contactMsg" rows="3" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-success w-100">Send Message</button>
+            <div id="contactSuccess" class="alert alert-success mt-3 d-none" role="alert">
+              Thank you for reaching out! We'll get back to you soon.
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="faq-card p-4 h-100">
+          <h3>Frequently Asked Questions</h3>
+          <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="faq1">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapse1">
+                  How do I book a stay?
+                </button>
+              </h2>
+              <div id="faqCollapse1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">Simply browse listings, select your dates, and click 'Book Now' on the listing page.</div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="faq2">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapse2">
+                  How do I become a host?
+                </button>
+              </h2>
+              <div id="faqCollapse2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">Click 'Airbnb your home' in the navbar, fill out your property details, and publish your listing.</div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="faq3">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapse3">
+                  Is my payment secure?
+                </button>
+              </h2>
+              <div id="faqCollapse3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">Yes, all payments are processed securely and your information is protected.</div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="faq4">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapse4">
+                  Can I leave a review after my stay?
+                </button>
+              </h2>
+              <div id="faqCollapse4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">Absolutely! After your stay, visit the listing page and leave your feedback.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <script>
     // Tax toggle functionality
