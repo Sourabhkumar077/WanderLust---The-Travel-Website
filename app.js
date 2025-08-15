@@ -32,8 +32,11 @@ app.use(methodOverride("_method"));
 app.engine("ejs", ejsMate);
 app.use(express.static(path.join(__dirname, "public")));
 
+
+const dbUrl = process.env.ATLASDB_URL || "mongodb://127.0.0.1:27017/wanderLust";
+
 async function main() {
-  await mongoose.connect("mongodb://127.0.0.1:27017/wanderLust");
+  await mongoose.connect(dbUrl);
 }
 
 main()
@@ -47,13 +50,13 @@ main()
 
 // setting up the session
 let sessionConfig = {
-  secret: "thisshouldbeabettersecret!",
+  secret: process.env.SECRET,
   resave: false,
   saveUninitialized: true,
   cookie: {
     httpOnly: true, // for security
 
-    expires: Date.now() + 1000 * 60 * 60 * 24 * 7,   // session cookie expires after 7 days
+    expires: Date.now() + 1000 * 60 * 60 * 24 * 7,   // 7 days
     maxAge: 1000 * 60 * 60 * 24 * 7,
   },
 };
