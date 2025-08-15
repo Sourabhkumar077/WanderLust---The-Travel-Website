@@ -16,6 +16,7 @@ const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const User = require("./models/user");
+const MongoStore = require('connect-mongo');
 
 // Requiring the routers of the app
 const listingRouter = require("./routes/listing");
@@ -45,28 +46,28 @@ main()
 
 // Setting up the session store
 const store = MongoStore.create({
-    mongoUrl: dbUrl,
+    mongoUrl: dbUrl, 
     crypto: {
         secret: process.env.SECRET,
     },
-    touchAfter: 24 * 3600, // Time in seconds
+    touchAfter: 24 * 3600, 
 });
 
-store.on("error", (err) => {
+
+store.on("error", () => {
     console.log("ERROR in MONGO SESSION STORE", err);
 });
 
-// Setting up the session
 const sessionConfig = {
-  store,
-  secret: process.env.SECRET,
-  resave: false,
-  saveUninitialized: true,
-  cookie: {
-    httpOnly: true, // for security
-    expires: Date.now() + 1000 * 60 * 60 * 24 * 7,   // 7 days
-    maxAge: 1000 * 60 * 60 * 24 * 7,
-  },
+    store, // store: store ko ab yahan use karein
+    secret: process.env.SECRET,
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        httpOnly: true,
+        expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+        maxAge: 1000 * 60 * 60 * 24 * 7,
+    },
 };
 
 // Flash & Session middleware
@@ -99,7 +100,7 @@ app.use("/listings", listingRouter);
 app.use("/listings/:id/reviews", reviewsRouter);
 app.use("/", userRouter);
 
-/
+
 app.get("/demouser", async (req, res) => {
   const user = new User({ username: "demouser", email: "HsA2F@example.com" });
   const registeredUser = await User.register(user, "password");
