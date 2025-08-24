@@ -66,8 +66,8 @@ A full-stack web application for travelers and wanderers to find unique places t
 
 1. **Clone the repository:**
 ```bash
-git clone https://github.com/Sourabhkumar077/Nomadic-Nights.git
-cd nomadic-nights
+git clone https://github.com/Sourabhkumar077/WanderLust---The-Travel-Website.git
+cd WanderLust---The-Travel-Website
 ```
 
 2. **Install dependencies:**
@@ -138,7 +138,7 @@ This project is licensed under the ISC License.
 
 ## 🔗 Project Links
 
-- **Repository**: [https://github.com/Sourabhkumar077/nomadic-nights](https://github.com/Sourabhkumar077/nomadic-nights)
+- **Repository**: [https://github.com/Sourabhkumar077/nomadic-nights](https://github.com/Sourabhkumar077/WanderLust---The-Travel-Website)
 - **Technical Documentation**: [TECHNICAL_DOCS.md](./TECHNICAL_DOCS.md)
 
 ---
