@@ -46,27 +46,27 @@ main()
 // Setting up the session store
 const store = MongoStore.create({
     mongoUrl: dbUrl, 
-    crypto: {
-        secret: process.env.SECRET,
-    },
+    secret: process.env.SECRET || "your-secret-key-here",
     touchAfter: 24 * 3600, 
+    collectionName: 'sessions'
 });
 
-
-store.on("error", () => {
+store.on("error", (err) => {
     console.log("ERROR in MONGO SESSION STORE", err);
 });
 
 const sessionConfig = {
-    store, // store: store ko ab yahan use karein
-    secret: process.env.SECRET,
+    store, 
+    secret: process.env.SECRET || "your-secret-key-here",
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
     cookie: {
         httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
         expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
         maxAge: 1000 * 60 * 60 * 24 * 7,
     },
+    name: 'sessionId'
 };
 
 // Flash & Session middleware
