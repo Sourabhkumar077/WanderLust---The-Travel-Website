@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "A travel listings platform where users can create, view, edit, and delete travel listings with reviews",
   "main": "app.js",
+  "type": "module",
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js",

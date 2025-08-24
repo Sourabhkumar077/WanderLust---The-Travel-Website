@@ -1,40 +1,39 @@
-const express = require("express");
-const router = express.Router();
+import { Router } from "express";
+const router = Router();
 // requiring essential model of lisntings route
-const wrapAsync = require("../utils/wrapAsync");
-const ExpressError = require("../utils/expressError").default;
-const Listing = require("../models/listing").default;
-const { isLoggedIn, isOwner, validateListing } = require("../middleware");
+import wrapAsync from "../utils/wrapAsync.js";
+import { isLoggedIn, isOwner, validateListing } from "../middleware.js";
 
-const multer = require('multer')
-const { storage } = require("../cloudconfig").default;
+import multer from 'multer';
+import cloudConfig from "../cloudconfig.js";
+const { storage } = cloudConfig;
 const upload = multer({ storage }); // files stored in cloudinary space
 
 // requiring the controllers file 
-const listingController = require("../controllers/listingController");
+import { index, createListings, renderNewForm, showListings, updateListings, destroyListing, renderEditForm } from "../controllers/listingController.js";
 
 router.route("/")
-    .get(wrapAsync(listingController.index))
+    .get(wrapAsync(index))
     .post(
         isLoggedIn,
         upload.single('listing[image]'),
         validateListing,
-        wrapAsync(listingController.createListings)
+        wrapAsync(createListings)
     );
 
 // new route - must come before /:id route
-router.get("/new", isLoggedIn, listingController.renderNewForm);
+router.get("/new", isLoggedIn, renderNewForm);
 
 // Show route & update , delete route
 router.route("/:id")
-    .get(wrapAsync(listingController.showListings))
+    .get(wrapAsync(showListings))
     .put(isOwner,
         upload.single('listing[image]'),
         validateListing,
-        wrapAsync(listingController.updateListings))
-    .delete(isOwner, isLoggedIn, wrapAsync(listingController.destroyListing));
+        wrapAsync(updateListings))
+    .delete(isOwner, isLoggedIn, wrapAsync(destroyListing));
 
 // edit route
-router.get("/:id/edit", isLoggedIn, isOwner, wrapAsync(listingController.renderEditForm));
+router.get("/:id/edit", isLoggedIn, isOwner, wrapAsync(renderEditForm));
 
-module.exports = router; // ✅ Export the router directly
+export default router; // ✅ Export the router directly

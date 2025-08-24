@@ -1,11 +1,11 @@
 
-const User = require("../models/user").default;
+import User from "../models/user.js";
 
-module.exports.renderSignupForm = (req, res) => {
+export function renderSignupForm(req, res) {
     res.render("users/signup.ejs");
-};
+}
 
-module.exports.signup = async (req, res) => {
+export async function signup(req, res) {
     try {
         let { username, email, password } = req.body;
         let newuser = new User({ username, email });
@@ -21,20 +21,20 @@ module.exports.signup = async (req, res) => {
         req.flash("error", error.message);
         res.redirect("/signup");
     }
-};
+}
 
-module.exports.renderLoginForm = (req, res) => {
+export function renderLoginForm(req, res) {
     res.render("users/login.ejs");
-};
+}
 
-module.exports.login = async (req, res) => {
+export async function login(req, res) {
     req.flash("success", "Welcome Back!");
     let redirectUrl = res.locals.redirectUrl || "/listings";
     delete req.session.redirectUrl;  // Clear the redirect URL from session
     res.redirect(redirectUrl);
-};
+}
 
-module.exports.logout = (req, res, next) => {
+export function logout(req, res, next) {
     req.logout((err) => {
         if (err) {
             return next(err);
@@ -42,4 +42,4 @@ module.exports.logout = (req, res, next) => {
         req.flash("success", "Goodbye!");
         res.redirect("/listings");
     });
-};
+}

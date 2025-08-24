@@ -1,9 +1,10 @@
-const Listing = require("./models/listing").default;
-const Review = require("./models/review").default;
-const { listingSchema,reviewSchema } = require("./schema").default;
-const ExpressError = require("./utils/expressError").default;
+import Listing from "./models/listing.js";
+import Review from "./models/review.js";
+import schemas from "./schema.js";
+const { listingSchema, reviewSchema } = schemas;
+import ExpressError from "./utils/expressError.js";
 
-module.exports.isLoggedIn = (req, res, next) => {
+export function isLoggedIn(req, res, next) {
     //  console.log(req.user);
     if (!req.isAuthenticated()) {
         req.session.redirectUrl = req.originalUrl;  // users will be redirected to that page from they coming from
@@ -11,16 +12,16 @@ module.exports.isLoggedIn = (req, res, next) => {
         return res.redirect("/login");
     }
     next();
-};
+}
 // sessions are deleted after each login so saving the redirect url in locals and using them as the middleware in login route
-module.exports.saveRedirectUrl = (req, res, next) => {
+export function saveRedirectUrl(req, res, next) {
     if(req.session.redirectUrl){
         res.locals.redirectUrl = req.session.redirectUrl;
     }
     next();
-};
+}
 
-module.exports.isOwner = async (req, res, next) => {
+export async function isOwner(req, res, next) {
     try {
         let {id} = req.params;
         let listing = await Listing.findById(id);
@@ -37,9 +38,9 @@ module.exports.isOwner = async (req, res, next) => {
         req.flash("error", "Something went wrong!");
         return res.redirect("/listings");
     }
-};
+}
 
-module.exports.isReviewAuthor = async (req, res, next) => {
+export async function isReviewAuthor(req, res, next) {
     try {
         let {id,reviewId} = req.params;
         let review = await Review.findById(reviewId);
@@ -53,9 +54,9 @@ module.exports.isReviewAuthor = async (req, res, next) => {
         req.flash("error", "Something went wrong!");
         return res.redirect("/listings");
     }
-};
+}
 // schema validation error handling middleware
-module.exports.validateListing = (req, res, next) => {
+export function validateListing(req, res, next) {
   if (!req.body || !req.body.listing) {
     throw new ExpressError("Invalid listing data", 400);
   }
@@ -66,9 +67,9 @@ module.exports.validateListing = (req, res, next) => {
   } else {
     next();
   }
-};
+}
 
-module.exports.validateReview = (req, res, next) => {
+export function validateReview(req, res, next) {
   if (!req.body) {
     throw new ExpressError("Invalid review data", 400);
   }
@@ -79,4 +80,4 @@ module.exports.validateReview = (req, res, next) => {
   } else {
     next();
   }
-};
+}

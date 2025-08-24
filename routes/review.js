@@ -1,16 +1,16 @@
-const express = require("express");
-const router = express.Router({ mergeParams: true });
+import { Router } from "express";
+const router = Router({ mergeParams: true });
 // requiring essential model of lisntings route
-const wrapAsync = require("../utils/wrapAsync");
-const {validateReview,isLoggedIn,isReviewAuthor} = require("../middleware");
+import wrapAsync from "../utils/wrapAsync.js";
+import { validateReview, isLoggedIn, isReviewAuthor } from "../middleware.js";
 
-const reviewController = require("../controllers/reviewController");
+import { createReview, destroyReview } from "../controllers/reviewController.js";
 
 
 // add review route & here request come from the show page form
-router.post("/",isLoggedIn, validateReview, wrapAsync(reviewController.createReview));
+router.post("/",isLoggedIn, validateReview, wrapAsync(createReview));
 
 // delete review route 
-router.delete("/:reviewId",isLoggedIn, isReviewAuthor, wrapAsync(reviewController.destroyReview));
+router.delete("/:reviewId",isLoggedIn, isReviewAuthor, wrapAsync(destroyReview));
 
-module.exports = router;
+export default router;
