@@ -1,49 +1,52 @@
-if(process.env.NODE_ENV !== "production"){
-  require('dotenv').config()
+if (process.env.NODE_ENV !== "production") {
+  import('dotenv').then(dotenv => dotenv.config());
 }
 
-const express = require("express");
+import express, { urlencoded } from "express";
 const app = express();
 const port = 3000;
-const mongoose = require("mongoose");
-const path = require("path");
-const methodOverride = require("method-override");
-const ejsMate = require("ejs-mate");
-const ExpressError = require("./utils/expressError");
-const session = require("express-session");
-const MongoStore = require('connect-mongo'); // Added for session store
-const flash = require("connect-flash");
-const passport = require("passport");
-const LocalStrategy = require("passport-local");
-const User = require("./models/user");
+import { connect } from "mongoose";
+import { dirname, join } from "path";
+import { fileURLToPath } from "url";
+const __dirname = dirname(fileURLToPath(import.meta.url));
+import methodOverride from "method-override";
+import ejsMate from "ejs-mate";
+import ExpressError from "./utils/expressError.js";
+import session from "express-session";
+import flash from "connect-flash";
+import passport from "passport";
+const { initialize, session: _session, use, serializeUser, deserializeUser } = passport;
+import LocalStrategy from "passport-local";
+import User, { authenticate, serializeUser as _serializeUser, deserializeUser as _deserializeUser, register } from "./models/user.js";
 
 // Requiring the routers of the app
-const listingRouter = require("./routes/listing");
-const reviewsRouter = require("./routes/review");
-const userRouter = require("./routes/user");
+import listingRouter from "./routes/listing.js";
+import reviewsRouter from "./routes/review.js";
+import userRouter from "./routes/user.js";
 
 // Setting views engine
 app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "views"));
-app.use(express.urlencoded({ extended: true }));
+app.set("views", join(__dirname, "views"));
+app.use(urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.engine("ejs", ejsMate);
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(join(__dirname, "public")));
 
 const dbUrl = process.env.ATLASDB_URL || "mongodb://127.0.0.1:27017/wanderLust";
 
 async function main() {
-  await mongoose.connect(dbUrl);
+  await connect(dbUrl);
 }
 
 main()
-  .then(() => console.log("Connected to MongoDB"))
+  .then(() => console.log("Connected to MongoDB Successfully at", dbUrl))
   .catch((err) => {
     console.log(err);
     process.exit(1);
   });
 
 // Setting up the session store
+import MongoStore from 'connect-mongo'; 
 const store = MongoStore.create({
     mongoUrl: dbUrl, 
     secret: process.env.SECRET || "your-secret-key-here",
@@ -75,12 +78,10 @@ app.use(flash());
 
 // Authentication strategy
 app.use(passport.initialize());
-app.use(passport.session());  // passport middleware
-passport.use(new LocalStrategy(User.authenticate()));
-
-// Serialize and deserialize user on session
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+app.use(passport.session());
+passport.use(new LocalStrategy(authenticate));
+passport.serializeUser(_serializeUser);
+passport.deserializeUser(_deserializeUser);
 
 app.use((req, res, next) => {
   res.locals.success = req.flash("success");
@@ -102,7 +103,7 @@ app.use("/", userRouter);
 
 app.get("/demouser", async (req, res) => {
   const user = new User({ username: "demouser", email: "HsA2F@example.com" });
-  const registeredUser = await User.register(user, "password");
+  const registeredUser = await register(user, "password");
   res.send(registeredUser);
 });
 

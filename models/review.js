@@ -1,7 +1,6 @@
-const { ref } = require("joi");
-const mongoose = require("mongoose");
+import { Schema as _Schema, model } from "mongoose";
 
-const Schema = mongoose.Schema;
+const Schema = _Schema;
 
 let reviewSchema = new Schema({
     comment : String,
@@ -20,4 +19,4 @@ let reviewSchema = new Schema({
     }
 });
 
-module.exports = mongoose.model("Review",reviewSchema);
+export default model("Review",reviewSchema);

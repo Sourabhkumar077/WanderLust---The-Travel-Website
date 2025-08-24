@@ -2,12 +2,12 @@ const express = require("express");
 const router = express.Router();
 // requiring essential model of lisntings route
 const wrapAsync = require("../utils/wrapAsync");
-const ExpressError = require("../utils/expressError");
-const Listing = require("../models/listing");
+const ExpressError = require("../utils/expressError").default;
+const Listing = require("../models/listing").default;
 const { isLoggedIn, isOwner, validateListing } = require("../middleware");
 
 const multer = require('multer')
-const { storage } = require("../cloudconfig");
+const { storage } = require("../cloudconfig").default;
 const upload = multer({ storage }); // files stored in cloudinary space
 
 // requiring the controllers file 

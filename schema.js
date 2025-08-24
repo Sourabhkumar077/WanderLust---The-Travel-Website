@@ -1,4 +1,4 @@
-const Joi = require("joi");
+import Joi from "joi";
 
 const listingSchema = Joi.object({
   listing: Joi.object({
@@ -21,4 +21,4 @@ const reviewSchema = Joi.object({
   }).required()
 });
 
-module.exports = { listingSchema, reviewSchema };
+export default { listingSchema, reviewSchema };
