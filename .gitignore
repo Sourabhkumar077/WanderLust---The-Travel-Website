@@ -10,3 +10,4 @@ yarn-error.log*
 
 .gitignore
 uploads/
+TODO.md
