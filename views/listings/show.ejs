@@ -13,7 +13,7 @@
     
     <div class="col-lg-4 col-md-12 mt-3 mt-lg-0">
       <div class="listing-info">
-        <p><strong>Owner:</strong> <i><%= oneListing.owner.username %></i></p>
+        <p><strong>Owner:</strong> <i><%= oneListing.owner ? oneListing.owner.username : 'Unknown' %></i></p>
         <p><strong>Price:</strong> &#8377; <%= oneListing.price?.toLocaleString("en-IN") || 'Price Not Available' %> / night</p>
         <p><strong>Location:</strong> <%=oneListing.location%></p>
         <p><strong>Country:</strong> <%=oneListing.country%></p>
