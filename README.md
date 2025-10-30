@@ -1,6 +1,6 @@
 # WanderLust - Modern Travel Listings Platform
 
-A full-stack web application for travelers and wanderers to find unique places to stay during their journey, making every night of their adventure special and memorable. Built with Node.js, Express, and MongoDB, featuring a modern, responsive design with enhanced user experience.
+A full-stack web application for travelers and wanderers to find unique places to stay during their journey, making every night of their adventure special and memorable. Built with Node.js, Express, and MongoDB, featuring a modern, responsive design with enhanced user experience and many more.
 
 ## ✨ Features
 
